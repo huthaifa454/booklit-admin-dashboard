@@ -1,0 +1,290 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BOOKLIT | Admin Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root {
+  --violet:#493BEA;
+  --blue:#2452DB;
+  --purple:#A66BFA;
+  --lavender:#F5F4FF;
+  --navy:#17172B;
+  --text:#24243C;
+  --muted:#88879C;
+  --border:#EBEAF2;
+  --white:#FFFFFF;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#F8F8FC;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input{font:inherit}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:245px;background:var(--navy);color:white;padding:26px 17px;flex-shrink:0}
+.logo{font-size:25px;font-weight:850;letter-spacing:1px;padding:5px 12px 35px}
+.logo span{color:var(--purple)}
+.nav-label{font-size:10px;color:#88879F;letter-spacing:1.5px;padding:15px 12px 9px}
+.nav-item{display:flex;align-items:center;gap:12px;padding:12px;border-radius:10px;color:#B9B8CA;font-size:14px;margin:4px 0;cursor:pointer}
+.nav-item.active,.nav-item:hover{background:#302B60;color:white}
+.nav-item.active{border-left:3px solid var(--purple)}
+.nav-icon{width:20px;text-align:center;font-size:17px}
+.sidebar-bottom{margin-top:55px;border-top:1px solid #34344B;padding-top:17px;color:#A7A6B8;font-size:12px;padding-left:12px}
+.main{flex:1;min-width:0}
+.topbar{height:75px;background:white;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 30px}
+.topbar-title{font-weight:700;font-size:15px}
+.admin-chip{display:flex;align-items:center;gap:10px;font-size:13px;color:#5D5B70}
+.avatar{width:35px;height:35px;border-radius:50%;background:var(--lavender);color:var(--violet);display:grid;place-items:center;font-weight:800}
+.content{padding:30px;max-width:1300px;margin:auto}
+.page-heading{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:25px}
+h1{font-size:25px;margin:0 0 7px}
+.subtitle{color:var(--muted);font-size:13px;margin:0}
+.date{font-size:12px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;margin-bottom:23px}
+.card{background:white;border:1px solid var(--border);border-radius:15px;padding:19px;box-shadow:0 3px 12px #17172B05}
+.stat-top{display:flex;align-items:center;justify-content:space-between}
+.stat-label{font-size:12px;color:var(--muted)}
+.stat-icon{width:35px;height:35px;border-radius:10px;background:var(--lavender);color:var(--violet);display:grid;place-items:center;font-size:17px}
+.stat-value{font-size:28px;font-weight:750;margin-top:14px}
+.stat-note{font-size:11px;color:#8B899D;margin-top:5px}
+.section-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:17px}
+.section-title{font-size:15px;font-weight:700;margin:0 0 18px}
+.activity-empty{text-align:center;padding:25px 10px;color:var(--muted);font-size:13px}
+.quick-list{display:grid;gap:10px}
+.quick-item{display:flex;align-items:center;justify-content:space-between;padding:12px;background:#FAFAFD;border-radius:10px;font-size:13px}
+.quick-item span:last-child{color:var(--violet);font-weight:650}
+.primary{background:var(--violet);color:white;border:0;border-radius:9px;padding:11px 16px;font-size:13px;font-weight:650;cursor:pointer}
+.primary:hover{background:#392BCB}
+.secondary{background:var(--lavender);color:var(--violet);border:0;border-radius:9px;padding:10px 14px;cursor:pointer}
+.hidden{display:none!important}
+.login-wrap{min-height:100vh;display:grid;place-items:center;padding:20px;background:var(--lavender)}
+.login-card{background:white;padding:35px;border:1px solid var(--border);border-radius:19px;width:100%;max-width:390px;box-shadow:0 12px 40px #17172B0C}
+.login-logo{text-align:center;font-size:30px;font-weight:850;margin-bottom:8px}
+.login-logo span{color:var(--violet)}
+.login-sub{text-align:center;color:var(--muted);font-size:13px;margin-bottom:28px}
+label{display:block;font-size:12px;font-weight:650;margin:13px 0 7px}
+input{width:100%;border:1px solid #DEDEEA;border-radius:9px;padding:12px;background:white;outline:none}
+input:focus{border-color:var(--violet)}
+.login-card .primary{width:100%;margin-top:19px;padding:13px}
+.message{font-size:12px;color:#C0445B;margin-top:12px;line-height:1.5}
+.mobile-menu{display:none;background:none;border:0;font-size:23px;cursor:pointer}
+@media(max-width:900px){
+.sidebar{width:205px}
+.content{padding:23px 18px}
+.grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.section-grid{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+.sidebar{display:none;position:fixed;z-index:10;inset:0 auto 0 0;width:245px}
+.sidebar.open{display:block}
+.topbar{height:65px;padding:0 16px}
+.mobile-menu{display:block}
+.content{padding:23px 14px}
+.page-heading{align-items:flex-start;flex-direction:column}
+h1{font-size:22px}
+.grid{gap:10px}
+.card{padding:15px}
+.stat-value{font-size:24px}
+}
+</style>
+</head>
+<body>
+
+<section id="loginScreen" class="login-wrap">
+  <div class="login-card">
+    <div class="login-logo">BOOK<span>LIT</span></div>
+    <div class="login-sub">Administration Portal</div>
+    <label>Email Address</label>
+    <input id="email" type="email" placeholder="admin@example.com">
+    <label>Password</label>
+    <input id="password" type="password" placeholder="Enter your password">
+    <button class="primary" id="loginButton" onclick="login()">Sign In</button>
+    <div class="message" id="loginMessage"></div>
+  </div>
+</section>
+
+<div id="app" class="layout hidden">
+  <aside class="sidebar" id="sidebar">
+    <div class="logo">BOOK<span>LIT</span></div>
+    <div class="nav-label">MAIN MENU</div>
+    <div class="nav-item active" onclick="navigate('dashboard',this)"><span class="nav-icon">▦</span>Dashboard</div>
+    <div class="nav-item" onclick="navigate('curriculum',this)"><span class="nav-icon">▤</span>Curriculum</div>
+    <div class="nav-item" onclick="navigate('booklets',this)"><span class="nav-icon">▣</span>Booklets</div>
+    <div class="nav-item" onclick="navigate('questions',this)"><span class="nav-icon">☷</span>Questions</div>
+    <div class="nav-label">MANAGEMENT</div>
+    <div class="nav-item" onclick="navigate('students',this)"><span class="nav-icon">♙</span>Students</div>
+    <div class="nav-item" onclick="navigate('purchases',this)"><span class="nav-icon">◇</span>Purchase Requests</div>
+    <div class="nav-label">ACCOUNT</div>
+    <div class="nav-item" onclick="logout()"><span class="nav-icon">↪</span>Sign Out</div>
+    <div class="sidebar-bottom">BOOKLIT Admin Portal<br>Version 1.0</div>
+  </aside>
+
+  <section class="main">
+    <header class="topbar">
+      <div style="display:flex;align-items:center;gap:13px">
+        <button class="mobile-menu" onclick="toggleSidebar()">☰</button>
+        <div class="topbar-title" id="topTitle">Dashboard</div>
+      </div>
+      <div class="admin-chip">
+        <div class="avatar">A</div>
+        <span>Administrator</span>
+      </div>
+    </header>
+
+    <main class="content">
+      <div id="dashboardPage">
+        <div class="page-heading">
+          <div>
+            <h1>Dashboard Overview</h1>
+            <p class="subtitle">Welcome back. Here's what's happening with BOOKLIT.</p>
+          </div>
+          <span class="date">ADMIN PANEL</span>
+        </div>
+
+        <div class="grid">
+          <div class="card">
+            <div class="stat-top"><span class="stat-label">Study Stages</span><span class="stat-icon">▦</span></div>
+            <div class="stat-value" id="stagesCount">—</div>
+            <div class="stat-note">Total registered stages</div>
+          </div>
+          <div class="card">
+            <div class="stat-top"><span class="stat-label">Subjects</span><span class="stat-icon">▤</span></div>
+            <div class="stat-value" id="subjectsCount">—</div>
+            <div class="stat-note">Total subjects</div>
+          </div>
+          <div class="card">
+            <div class="stat-top"><span class="stat-label">Booklets</span><span class="stat-icon">▣</span></div>
+            <div class="stat-value" id="bookletsCount">—</div>
+            <div class="stat-note">Published and draft booklets</div>
+          </div>
+          <div class="card">
+            <div class="stat-top"><span class="stat-label">Students</span><span class="stat-icon">♙</span></div>
+            <div class="stat-value" id="studentsCount">—</div>
+            <div class="stat-note">Registered profiles</div>
+          </div>
+        </div>
+
+        <div class="section-grid">
+          <div class="card">
+            <h3 class="section-title">Recent Activity</h3>
+            <div class="activity-empty">No recent activity to display.</div>
+          </div>
+          <div class="card">
+            <h3 class="section-title">Quick Overview</h3>
+            <div class="quick-list">
+              <div class="quick-item"><span>Questions</span><span id="questionsCount">—</span></div>
+              <div class="quick-item"><span>Purchase Requests</span><span id="purchasesCount">—</span></div>
+              <div class="quick-item"><span>Active Entitlements</span><span id="entitlementsCount">—</span></div>
+            </div>
+            <button class="secondary" style="margin-top:17px" onclick="loadStats()">Refresh Statistics ↻</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="otherPage" class="hidden">
+        <div class="page-heading">
+          <div><h1 id="otherTitle">Curriculum</h1><p class="subtitle" id="otherSubtitle">Manage your academic content.</p></div>
+        </div>
+        <div class="card">
+          <h3 class="section-title" id="otherCardTitle">Content Management</h3>
+          <p class="subtitle" id="otherDescription">This section will be implemented in the next development phase.</p>
+        </div>
+      </div>
+    </main>
+  </section>
+</div>
+
+<script>
+const SUPABASE_URL="https://zakfvxdavykrvmjdphfc.supabase.co";
+const SUPABASE_KEY="sb_publishable_IEymaK24QnLb0XSIglgGpw_Njy66lC-";
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+async function login(){
+  const button=document.getElementById("loginButton");
+  const message=document.getElementById("loginMessage");
+  button.disabled=true;
+  message.textContent="Signing in...";
+  const email=document.getElementById("email").value.trim();
+  const password=document.getElementById("password").value;
+  const {data,error}=await db.auth.signInWithPassword({email,password});
+  if(error){message.textContent=error.message;button.disabled=false;return;}
+  await verifyAdmin(data.user);
+  button.disabled=false;
+}
+
+async function verifyAdmin(user){
+  const message=document.getElementById("loginMessage");
+  const {data,error}=await db.from("profiles").select("role").eq("id",user.id).single();
+  if(error||!data||data.role!=="admin"){
+    await db.auth.signOut();
+    message.textContent="Access denied. Administrator privileges required.";
+    return;
+  }
+  document.getElementById("loginScreen").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+  loadStats();
+}
+
+async function countRows(table){
+  const {count,error}=await db.from(table).select("*",{count:"exact",head:true});
+  return error?"—":(count??0);
+}
+
+async function loadStats(){
+  const tables=[
+    ["stagesCount","stages"],
+    ["subjectsCount","subjects"],
+    ["bookletsCount","booklets"],
+    ["studentsCount","profiles"],
+    ["questionsCount","questions"],
+    ["purchasesCount","purchase_requests"],
+    ["entitlementsCount","entitlements"]
+  ];
+  await Promise.all(tables.map(async([id,table])=>{
+    document.getElementById(id).textContent=await countRows(table);
+  }));
+}
+
+const pages={
+  curriculum:["Curriculum","Manage study stages and subjects.","Academic Structure","Stage and subject management will be added next."],
+  booklets:["Booklets","Manage your educational booklets.","Booklet Library","Create, edit and organize booklets and topics."],
+  questions:["Questions","Manage educational question banks.","Question Bank","Organize ministry, instructor and quiz questions."],
+  students:["Students","Manage registered student accounts.","Student Management","View student accounts and learning activity."],
+  purchases:["Purchase Requests","Review student purchase requests.","Purchase Management","Review payments and manage content access."]
+};
+
+function navigate(page,element){
+  document.querySelectorAll(".nav-item").forEach(item=>item.classList.remove("active"));
+  element.classList.add("active");
+  const dashboard=page==="dashboard";
+  document.getElementById("dashboardPage").classList.toggle("hidden",!dashboard);
+  document.getElementById("otherPage").classList.toggle("hidden",dashboard);
+  if(!dashboard){
+    const info=pages[page];
+    document.getElementById("topTitle").textContent=info[0];
+    document.getElementById("otherTitle").textContent=info[0];
+    document.getElementById("otherSubtitle").textContent=info[1];
+    document.getElementById("otherCardTitle").textContent=info[2];
+    document.getElementById("otherDescription").textContent=info[3];
+  }else{
+    document.getElementById("topTitle").textContent="Dashboard";
+  }
+  document.getElementById("sidebar").classList.remove("open");
+}
+
+function toggleSidebar(){
+  document.getElementById("sidebar").classList.toggle("open");
+}
+
+async function logout(){
+  await db.auth.signOut();
+  location.reload();
+}
+
+db.auth.getSession().then(async({data})=>{
+  if(data.session) await verifyAdmin(data.session.user);
+});
+</script>
+</body>
+</html>
