@@ -68,12 +68,59 @@ input{width:100%;border:1px solid #DEDEEA;border-radius:9px;padding:12px;backgro
 input:focus{border-color:var(--violet)}
 .login-card .primary{width:100%;margin-top:19px;padding:13px}
 .message{font-size:12px;color:#C0445B;margin-top:12px;line-height:1.5}
+textarea,select{font:inherit;width:100%;border:1px solid #DEDEEA;border-radius:9px;padding:12px;background:white;outline:none;color:var(--text)}
+textarea{resize:vertical;min-height:84px}
+textarea:focus,select:focus{border-color:var(--violet)}
+button:disabled{opacity:.6;cursor:not-allowed}
+button:focus-visible,.nav-item:focus-visible{outline:2px solid var(--violet);outline-offset:2px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+.cur-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:17px;align-items:start}
+.card-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}
+.card-head .section-title{margin:0}
+.card-sub{font-size:12px;color:var(--muted);margin-top:4px}
+.list{display:grid;gap:8px}
+.row{display:flex;align-items:center;gap:8px;padding:6px 8px 6px 6px;border:1px solid var(--border);border-radius:11px;background:#FAFAFD}
+.row.selected{border-color:var(--violet);background:var(--lavender)}
+.row-main{flex:1;min-width:0;text-align:left;background:none;border:0;padding:8px;border-radius:8px;color:inherit;cursor:default}
+button.row-main{cursor:pointer}
+.row-title{font-size:14px;font-weight:650;overflow-wrap:anywhere}
+.row-desc{font-size:12px;color:#5D5B70;margin-top:4px;line-height:1.5;overflow-wrap:anywhere}
+.row-meta{font-size:11px;color:var(--muted);margin-top:5px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.3px}
+.badge.on{background:#E7F6EE;color:#1F7A4D}
+.badge.off{background:#F1F0F5;color:#6E6C82}
+.row-actions{display:flex;gap:6px;flex-shrink:0}
+.icon-btn{width:34px;height:34px;border-radius:8px;border:1px solid var(--border);background:white;color:#5D5B70;cursor:pointer;display:grid;place-items:center;font-size:15px}
+.icon-btn:hover{color:var(--violet);border-color:#D4D1FA}
+.icon-btn.danger:hover{color:#C0445B;border-color:#F1C9D1}
+.state{text-align:center;padding:28px 10px;color:var(--muted);font-size:13px;line-height:1.6}
+.state.error{color:#C0445B}
+.state .secondary{margin-top:12px}
+.skeleton{height:58px;border-radius:11px;background:linear-gradient(90deg,#F2F1F7 25%,#FAFAFD 50%,#F2F1F7 75%);background-size:200% 100%;animation:shimmer 1.2s infinite}
+@keyframes shimmer{to{background-position:-200% 0}}
+.danger-btn{background:#C0445B;color:white;border:0;border-radius:9px;padding:11px 16px;font-size:13px;font-weight:650;cursor:pointer}
+.danger-btn:hover{background:#A8374D}
+.ghost{background:white;color:#5D5B70;border:1px solid var(--border);border-radius:9px;padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer}
+dialog{border:0;border-radius:17px;padding:0;width:calc(100% - 28px);max-width:460px;box-shadow:0 20px 60px #17172B30;color:var(--text)}
+dialog::backdrop{background:#17172B66}
+.dialog-body{padding:24px}
+.dialog-title{font-size:17px;font-weight:750;margin:0 0 4px}
+.dialog-text{font-size:13px;color:#5D5B70;line-height:1.6;margin:10px 0 0}
+.dialog-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:22px}
+.field-row{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:end}
+.check{display:flex;align-items:center;gap:8px;margin:13px 0 0;font-size:13px;font-weight:600;cursor:pointer;padding:12px 0}
+.check input{width:18px;height:18px;margin:0;accent-color:var(--violet)}
+.form-error{font-size:12px;color:#C0445B;margin-top:12px;line-height:1.5}
+.toast-wrap{position:fixed;right:18px;bottom:18px;z-index:50;display:grid;gap:8px;max-width:calc(100% - 36px)}
+.toast{background:var(--navy);color:white;padding:12px 16px;border-radius:11px;font-size:13px;box-shadow:0 10px 30px #17172B30;border-left:4px solid var(--purple)}
+.toast.error{border-left-color:#E0627A}
 .mobile-menu{display:none;background:none;border:0;font-size:23px;cursor:pointer}
 @media(max-width:900px){
 .sidebar{width:205px}
 .content{padding:23px 18px}
 .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 .section-grid{grid-template-columns:1fr}
+.cur-grid{grid-template-columns:1fr}
 }
 @media(max-width:600px){
 .sidebar{display:none;position:fixed;z-index:10;inset:0 auto 0 0;width:245px}
@@ -86,6 +133,13 @@ h1{font-size:22px}
 .grid{gap:10px}
 .card{padding:15px}
 .stat-value{font-size:24px}
+.card-head{flex-wrap:wrap}
+.field-row{grid-template-columns:1fr}
+.check{padding:4px 0}
+.dialog-actions{flex-direction:column-reverse}
+.dialog-actions button{width:100%;padding:13px}
+.icon-btn{width:38px;height:38px}
+.toast-wrap{left:14px;right:14px;bottom:14px}
 }
 </style>
 </head>
@@ -182,6 +236,40 @@ h1{font-size:22px}
         </div>
       </div>
 
+      <div id="curriculumPage" class="hidden">
+        <div class="page-heading">
+          <div>
+            <h1>Curriculum</h1>
+            <p class="subtitle">Manage study stages and the subjects within each stage.</p>
+          </div>
+          <button class="primary" onclick="openStageForm()">+ Add Stage</button>
+        </div>
+
+        <div class="cur-grid">
+          <section class="card" aria-labelledby="stagesHeading">
+            <div class="card-head">
+              <div>
+                <h2 class="section-title" id="stagesHeading">Study Stages</h2>
+                <div class="card-sub" id="stagesSummary">Loading stages…</div>
+              </div>
+              <button class="icon-btn" id="refreshStages" onclick="loadStages()" aria-label="Refresh stages" title="Refresh stages"></button>
+            </div>
+            <div id="stagesList" class="list" aria-live="polite"></div>
+          </section>
+
+          <section class="card" id="subjectsCard" aria-labelledby="subjectsHeading">
+            <div class="card-head">
+              <div>
+                <h2 class="section-title" id="subjectsHeading">Subjects</h2>
+                <div class="card-sub" id="subjectsSummary">Select a stage to view its subjects.</div>
+              </div>
+              <button class="primary" id="addSubjectButton" onclick="openSubjectForm()" disabled>+ Add Subject</button>
+            </div>
+            <div id="subjectsList" class="list" aria-live="polite"></div>
+          </section>
+        </div>
+      </div>
+
       <div id="otherPage" class="hidden">
         <div class="page-heading">
           <div><h1 id="otherTitle">Curriculum</h1><p class="subtitle" id="otherSubtitle">Manage your academic content.</p></div>
@@ -194,6 +282,64 @@ h1{font-size:22px}
     </main>
   </section>
 </div>
+
+<dialog id="stageDialog" aria-labelledby="stageDialogTitle">
+  <form class="dialog-body" onsubmit="saveStage(event)" novalidate>
+    <h2 class="dialog-title" id="stageDialogTitle">Add Stage</h2>
+    <label for="stageTitle">Stage Title</label>
+    <input id="stageTitle" type="text" required maxlength="200" placeholder="e.g. Grade 12">
+    <div class="field-row">
+      <div>
+        <label for="stageOrder">Sort Order</label>
+        <input id="stageOrder" type="number" step="1" inputmode="numeric">
+      </div>
+      <label class="check"><input id="stagePublished" type="checkbox"> Published</label>
+    </div>
+    <div class="form-error" id="stageFormError" role="alert"></div>
+    <div class="dialog-actions">
+      <button type="button" class="ghost" onclick="closeDialog('stageDialog')">Cancel</button>
+      <button type="submit" class="primary" id="stageSubmit">Save Stage</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="subjectDialog" aria-labelledby="subjectDialogTitle">
+  <form class="dialog-body" onsubmit="saveSubject(event)" novalidate>
+    <h2 class="dialog-title" id="subjectDialogTitle">Add Subject</h2>
+    <label for="subjectStage">Study Stage</label>
+    <select id="subjectStage" required></select>
+    <label for="subjectTitle">Subject Title</label>
+    <input id="subjectTitle" type="text" required maxlength="200" placeholder="e.g. Mathematics">
+    <label for="subjectDescription">Description <span style="color:var(--muted);font-weight:500">(optional)</span></label>
+    <textarea id="subjectDescription" maxlength="2000" placeholder="Short description of the subject"></textarea>
+    <div class="field-row">
+      <div>
+        <label for="subjectOrder">Sort Order</label>
+        <input id="subjectOrder" type="number" step="1" inputmode="numeric">
+      </div>
+      <label class="check"><input id="subjectPublished" type="checkbox"> Published</label>
+    </div>
+    <div class="form-error" id="subjectFormError" role="alert"></div>
+    <div class="dialog-actions">
+      <button type="button" class="ghost" onclick="closeDialog('subjectDialog')">Cancel</button>
+      <button type="submit" class="primary" id="subjectSubmit">Save Subject</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="confirmDialog" aria-labelledby="confirmTitle" aria-describedby="confirmText">
+  <div class="dialog-body">
+    <h2 class="dialog-title" id="confirmTitle">Delete</h2>
+    <p class="dialog-text" id="confirmText"></p>
+    <div class="form-error" id="confirmError" role="alert"></div>
+    <div class="dialog-actions">
+      <button type="button" class="ghost" onclick="closeDialog('confirmDialog')">Cancel</button>
+      <button type="button" class="danger-btn" id="confirmButton">Delete</button>
+    </div>
+  </div>
+</dialog>
+
+<div class="toast-wrap" id="toasts" role="status" aria-live="polite"></div>
 
 <script>
 const SUPABASE_URL="https://zakfvxdavykrvmjdphfc.supabase.co";
@@ -258,9 +404,14 @@ function navigate(page,element){
   document.querySelectorAll(".nav-item").forEach(item=>item.classList.remove("active"));
   element.classList.add("active");
   const dashboard=page==="dashboard";
+  const curriculum=page==="curriculum";
   document.getElementById("dashboardPage").classList.toggle("hidden",!dashboard);
-  document.getElementById("otherPage").classList.toggle("hidden",dashboard);
-  if(!dashboard){
+  document.getElementById("curriculumPage").classList.toggle("hidden",!curriculum);
+  document.getElementById("otherPage").classList.toggle("hidden",dashboard||curriculum);
+  if(curriculum){
+    document.getElementById("topTitle").textContent="Curriculum";
+    if(!curriculumState.loaded) loadStages();
+  }else if(!dashboard){
     const info=pages[page];
     document.getElementById("topTitle").textContent=info[0];
     document.getElementById("otherTitle").textContent=info[0];
@@ -271,6 +422,356 @@ function navigate(page,element){
     document.getElementById("topTitle").textContent="Dashboard";
   }
   document.getElementById("sidebar").classList.remove("open");
+}
+
+document.addEventListener("DOMContentLoaded",()=>{document.getElementById("refreshStages").innerHTML=ICONS.refresh;});
+const curriculumState={loaded:false,stages:[],subjects:[],selectedStageId:null,editingStageId:null,editingSubjectId:null,subjectsRequest:0};
+
+function el(tag,props={},children=[]){
+  const node=document.createElement(tag);
+  Object.entries(props).forEach(([key,value])=>{
+    if(key==="class") node.className=value;
+    else if(key==="text") node.textContent=value;
+    else if(key.startsWith("on")) node.addEventListener(key.slice(2),value);
+    else node.setAttribute(key,value);
+  });
+  children.forEach(child=>child&&node.append(child));
+  return node;
+}
+
+const ICONS={
+  edit:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>',
+  trash:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/></svg>',
+  refresh:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg>'
+};
+function iconButton(icon,label,onclick,extraClass=""){
+  const button=el("button",{class:"icon-btn"+extraClass,type:"button","aria-label":label,title:label,onclick});
+  button.innerHTML=ICONS[icon];
+  return button;
+}
+
+function friendlyError(error){
+  if(!error) return "Something went wrong. Please try again.";
+  switch(error.code){
+    case "42501": return "Permission denied by the database security policy (RLS). Your admin account is not allowed to perform this action.";
+    case "23503": return "This record is still referenced by other content (for example subjects or booklets). Remove or move that content first.";
+    case "23505": return "A record with the same values already exists.";
+    case "23502": return "A required field is missing: "+error.message;
+    case "PGRST301": case "PGRST303": return "Your session has expired. Please sign out and sign in again.";
+    default: return error.message||"Something went wrong. Please try again.";
+  }
+}
+
+const NO_ROWS_MESSAGE="No rows were changed. The record may no longer exist, or the database security policy (RLS) does not allow your account to modify it.";
+
+function toast(message,type="success"){
+  const node=el("div",{class:"toast"+(type==="error"?" error":""),text:message});
+  document.getElementById("toasts").append(node);
+  setTimeout(()=>node.remove(),type==="error"?6000:3200);
+}
+
+function closeDialog(id){document.getElementById(id).close();}
+
+function publishedBadge(isPublished){
+  return el("span",{class:"badge "+(isPublished?"on":"off"),text:isPublished?"PUBLISHED":"DRAFT"});
+}
+
+function renderLoading(container,rows=3){
+  container.replaceChildren(...Array.from({length:rows},()=>el("div",{class:"skeleton","aria-hidden":"true"})));
+}
+
+function renderState(container,message,{error=false,retry=null}={}){
+  container.replaceChildren(el("div",{class:"state"+(error?" error":"")},[
+    el("div",{text:message}),
+    retry?el("button",{class:"secondary",type:"button",text:"Try Again",onclick:retry}):null
+  ]));
+}
+
+function nextSortOrder(items){
+  return items.reduce((max,item)=>Math.max(max,Number(item.sort_order)||0),0)+1;
+}
+
+function parseSortOrder(value){
+  if(value.trim()==="") return null;
+  const number=Number(value);
+  return Number.isInteger(number)?number:NaN;
+}
+
+async function loadStages(){
+  const list=document.getElementById("stagesList");
+  const summary=document.getElementById("stagesSummary");
+  renderLoading(list);
+  summary.textContent="Loading stages…";
+  const {data,error}=await db.from("stages")
+    .select("id,title,sort_order,is_published,created_at,subjects(count)")
+    .order("sort_order",{ascending:true,nullsFirst:false})
+    .order("created_at",{ascending:true});
+  if(error){
+    summary.textContent="Could not load stages";
+    renderState(list,friendlyError(error),{error:true,retry:loadStages});
+    return;
+  }
+  curriculumState.loaded=true;
+  curriculumState.stages=data||[];
+  if(!curriculumState.stages.some(stage=>stage.id===curriculumState.selectedStageId)){
+    curriculumState.selectedStageId=curriculumState.stages[0]?.id??null;
+  }
+  renderStages();
+  loadSubjects();
+}
+
+function renderStages(){
+  const list=document.getElementById("stagesList");
+  const stages=curriculumState.stages;
+  document.getElementById("stagesSummary").textContent=stages.length===1?"1 stage":stages.length+" stages";
+  if(!stages.length){
+    renderState(list,"No study stages yet. Add your first stage to start building the curriculum.");
+    return;
+  }
+  list.replaceChildren(...stages.map(stage=>{
+    const count=stage.subjects?.[0]?.count??0;
+    const selected=stage.id===curriculumState.selectedStageId;
+    return el("div",{class:"row"+(selected?" selected":"")},[
+      el("button",{class:"row-main",type:"button","aria-pressed":String(selected),onclick:()=>selectStage(stage.id)},[
+        el("div",{class:"row-title",text:stage.title||"Untitled stage"}),
+        el("div",{class:"row-meta"},[
+          publishedBadge(stage.is_published),
+          el("span",{text:count===1?"1 subject":count+" subjects"}),
+          stage.sort_order!=null?el("span",{text:"Order "+stage.sort_order}):null
+        ])
+      ]),
+      el("div",{class:"row-actions"},[
+        iconButton("edit","Edit stage "+stage.title,()=>openStageForm(stage)),
+        iconButton("trash","Delete stage "+stage.title,()=>confirmDeleteStage(stage)," danger")
+      ])
+    ]);
+  }));
+}
+
+function selectStage(stageId){
+  if(curriculumState.selectedStageId===stageId) return;
+  curriculumState.selectedStageId=stageId;
+  renderStages();
+  loadSubjects();
+  if(window.matchMedia("(max-width:900px)").matches){
+    document.getElementById("subjectsCard").scrollIntoView({behavior:"smooth",block:"start"});
+  }
+}
+
+function selectedStage(){
+  return curriculumState.stages.find(stage=>stage.id===curriculumState.selectedStageId)||null;
+}
+
+async function loadSubjects(){
+  const list=document.getElementById("subjectsList");
+  const summary=document.getElementById("subjectsSummary");
+  const heading=document.getElementById("subjectsHeading");
+  const addButton=document.getElementById("addSubjectButton");
+  const stage=selectedStage();
+  addButton.disabled=!stage;
+  if(!stage){
+    heading.textContent="Subjects";
+    summary.textContent="Select a stage to view its subjects.";
+    curriculumState.subjects=[];
+    renderState(list,curriculumState.stages.length?"Select a stage to view its subjects.":"Create a study stage before adding subjects.");
+    return;
+  }
+  heading.textContent="Subjects · "+(stage.title||"Untitled stage");
+  summary.textContent="Loading subjects…";
+  renderLoading(list,2);
+  const requestId=++curriculumState.subjectsRequest;
+  const {data,error}=await db.from("subjects")
+    .select("id,title,description,stage_id,sort_order,is_published")
+    .eq("stage_id",stage.id)
+    .order("sort_order",{ascending:true,nullsFirst:false})
+    .order("title",{ascending:true});
+  if(requestId!==curriculumState.subjectsRequest) return;
+  if(error){
+    summary.textContent="Could not load subjects";
+    renderState(list,friendlyError(error),{error:true,retry:loadSubjects});
+    return;
+  }
+  curriculumState.subjects=data||[];
+  renderSubjects();
+}
+
+function renderSubjects(){
+  const list=document.getElementById("subjectsList");
+  const subjects=curriculumState.subjects;
+  document.getElementById("subjectsSummary").textContent=subjects.length===1?"1 subject in this stage":subjects.length+" subjects in this stage";
+  if(!subjects.length){
+    renderState(list,"No subjects in this stage yet. Use “Add Subject” to create one.");
+    return;
+  }
+  list.replaceChildren(...subjects.map(subject=>el("div",{class:"row"},[
+    el("div",{class:"row-main"},[
+      el("div",{class:"row-title",text:subject.title||"Untitled subject"}),
+      subject.description?el("div",{class:"row-desc",text:subject.description}):null,
+      el("div",{class:"row-meta"},[
+        publishedBadge(subject.is_published),
+        subject.sort_order!=null?el("span",{text:"Order "+subject.sort_order}):null
+      ])
+    ]),
+    el("div",{class:"row-actions"},[
+      iconButton("edit","Edit subject "+subject.title,()=>openSubjectForm(subject)),
+      iconButton("trash","Delete subject "+subject.title,()=>confirmDeleteSubject(subject)," danger")
+    ])
+  ])));
+}
+
+function openStageForm(stage=null){
+  curriculumState.editingStageId=stage?.id??null;
+  document.getElementById("stageDialogTitle").textContent=stage?"Edit Stage":"Add Stage";
+  document.getElementById("stageTitle").value=stage?.title??"";
+  document.getElementById("stageOrder").value=stage?(stage.sort_order??""):nextSortOrder(curriculumState.stages);
+  document.getElementById("stagePublished").checked=stage?Boolean(stage.is_published):false;
+  document.getElementById("stageFormError").textContent="";
+  document.getElementById("stageDialog").showModal();
+  document.getElementById("stageTitle").focus();
+}
+
+async function saveStage(event){
+  event.preventDefault();
+  const errorBox=document.getElementById("stageFormError");
+  const submit=document.getElementById("stageSubmit");
+  const title=document.getElementById("stageTitle").value.trim();
+  const sortOrder=parseSortOrder(document.getElementById("stageOrder").value);
+  if(!title){errorBox.textContent="Please enter a stage title.";return;}
+  if(Number.isNaN(sortOrder)){errorBox.textContent="Sort order must be a whole number.";return;}
+  const payload={title,sort_order:sortOrder,is_published:document.getElementById("stagePublished").checked};
+  const editingId=curriculumState.editingStageId;
+  submit.disabled=true;
+  submit.textContent="Saving…";
+  errorBox.textContent="";
+  const query=editingId
+    ?db.from("stages").update(payload).eq("id",editingId).select("id")
+    :db.from("stages").insert(payload).select("id");
+  const {data,error}=await query;
+  submit.disabled=false;
+  submit.textContent="Save Stage";
+  if(error){errorBox.textContent=friendlyError(error);return;}
+  if(!data?.length){errorBox.textContent=NO_ROWS_MESSAGE;return;}
+  closeDialog("stageDialog");
+  toast(editingId?"Stage updated.":"Stage created.");
+  if(!editingId) curriculumState.selectedStageId=data[0].id;
+  await loadStages();
+  loadStats();
+}
+
+function renderStageOptions(selectedId){
+  const select=document.getElementById("subjectStage");
+  select.replaceChildren(...curriculumState.stages.map(stage=>{
+    const option=el("option",{value:String(stage.id),text:stage.title||"Untitled stage"});
+    option.selected=String(stage.id)===String(selectedId);
+    return option;
+  }));
+}
+
+function openSubjectForm(subject=null){
+  if(!curriculumState.stages.length){toast("Create a study stage first.","error");return;}
+  curriculumState.editingSubjectId=subject?.id??null;
+  document.getElementById("subjectDialogTitle").textContent=subject?"Edit Subject":"Add Subject";
+  renderStageOptions(subject?.stage_id??curriculumState.selectedStageId);
+  document.getElementById("subjectTitle").value=subject?.title??"";
+  document.getElementById("subjectDescription").value=subject?.description??"";
+  document.getElementById("subjectOrder").value=subject?(subject.sort_order??""):nextSortOrder(curriculumState.subjects);
+  document.getElementById("subjectPublished").checked=subject?Boolean(subject.is_published):false;
+  document.getElementById("subjectFormError").textContent="";
+  document.getElementById("subjectDialog").showModal();
+  document.getElementById("subjectTitle").focus();
+}
+
+async function saveSubject(event){
+  event.preventDefault();
+  const errorBox=document.getElementById("subjectFormError");
+  const submit=document.getElementById("subjectSubmit");
+  const stageValue=document.getElementById("subjectStage").value;
+  const stage=curriculumState.stages.find(item=>String(item.id)===stageValue);
+  const title=document.getElementById("subjectTitle").value.trim();
+  const description=document.getElementById("subjectDescription").value.trim();
+  const sortOrder=parseSortOrder(document.getElementById("subjectOrder").value);
+  if(!stage){errorBox.textContent="Please choose a study stage.";return;}
+  if(!title){errorBox.textContent="Please enter a subject title.";return;}
+  if(Number.isNaN(sortOrder)){errorBox.textContent="Sort order must be a whole number.";return;}
+  const payload={stage_id:stage.id,title,description:description||null,sort_order:sortOrder,is_published:document.getElementById("subjectPublished").checked};
+  const editingId=curriculumState.editingSubjectId;
+  submit.disabled=true;
+  submit.textContent="Saving…";
+  errorBox.textContent="";
+  const query=editingId
+    ?db.from("subjects").update(payload).eq("id",editingId).select("id")
+    :db.from("subjects").insert(payload).select("id");
+  const {data,error}=await query;
+  submit.disabled=false;
+  submit.textContent="Save Subject";
+  if(error){errorBox.textContent=friendlyError(error);return;}
+  if(!data?.length){errorBox.textContent=NO_ROWS_MESSAGE;return;}
+  closeDialog("subjectDialog");
+  toast(editingId?"Subject updated.":"Subject created.");
+  curriculumState.selectedStageId=stage.id;
+  await loadStages();
+  loadStats();
+}
+
+function openConfirm({title,text,onConfirm}){
+  const dialog=document.getElementById("confirmDialog");
+  const button=document.getElementById("confirmButton");
+  const errorBox=document.getElementById("confirmError");
+  document.getElementById("confirmTitle").textContent=title;
+  document.getElementById("confirmText").textContent=text;
+  errorBox.textContent="";
+  button.disabled=false;
+  button.textContent="Delete";
+  button.onclick=async()=>{
+    button.disabled=true;
+    button.textContent="Deleting…";
+    const message=await onConfirm();
+    if(message){
+      errorBox.textContent=message;
+      button.disabled=false;
+      button.textContent="Delete";
+      return;
+    }
+    dialog.close();
+  };
+  dialog.showModal();
+}
+
+function confirmDeleteStage(stage){
+  const count=stage.subjects?.[0]?.count??0;
+  const warning=count
+    ?" This stage contains "+count+(count===1?" subject":" subjects")+". If the database restricts deletion, you will need to remove or move them first; if it cascades, they will be deleted too."
+    :"";
+  openConfirm({
+    title:"Delete stage?",
+    text:"“"+(stage.title||"Untitled stage")+"” will be permanently deleted."+warning+" This cannot be undone.",
+    onConfirm:async()=>{
+      const {data,error}=await db.from("stages").delete().eq("id",stage.id).select("id");
+      if(error) return friendlyError(error);
+      if(!data?.length) return NO_ROWS_MESSAGE;
+      toast("Stage deleted.");
+      if(curriculumState.selectedStageId===stage.id) curriculumState.selectedStageId=null;
+      await loadStages();
+      loadStats();
+      return null;
+    }
+  });
+}
+
+function confirmDeleteSubject(subject){
+  openConfirm({
+    title:"Delete subject?",
+    text:"“"+(subject.title||"Untitled subject")+"” will be permanently deleted. Booklets linked to this subject may prevent deletion. This cannot be undone.",
+    onConfirm:async()=>{
+      const {data,error}=await db.from("subjects").delete().eq("id",subject.id).select("id");
+      if(error) return friendlyError(error);
+      if(!data?.length) return NO_ROWS_MESSAGE;
+      toast("Subject deleted.");
+      await loadStages();
+      loadStats();
+      return null;
+    }
+  });
 }
 
 function toggleSidebar(){
